@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.nbu_dimitar_yakov_</span><span class="s0">;</span>
+
+import <span class="s1">android.content.Intent</span><span class="s0">;</span>
+import <span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span>
+import <span class="s1">android.os.Bundle</span><span class="s0">;</span>
+import <span class="s1">android.view.View</span><span class="s0">;</span>
+import <span class="s1">android.widget.Button</span><span class="s0">;</span>
+import <span class="s1">android.widget.TextView</span><span class="s0">;</span>
+import <span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+public class <span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s0">private </span><span class="s1">QuestionLibrary mQuestionLibrary = </span><span class="s0">new </span><span class="s1">QuestionLibrary()</span><span class="s0">;</span>
+
+    private <span class="s1">TextView mScoreView</span><span class="s0">;</span>
+    private <span class="s1">TextView mQuestionView</span><span class="s0">;</span>
+    private <span class="s1">Button mButtonChoice1</span><span class="s0">;</span>
+    private <span class="s1">Button mButtonChoice2</span><span class="s0">;</span>
+    private <span class="s1">Button mButtonResult</span><span class="s0">;</span>
+    protected <span class="s1">Button mButtonQuit</span><span class="s0">;</span>
+
+    private <span class="s1">String mAnswer</span><span class="s0">;</span>
+    private int <span class="s1">mScore = </span><span class="s2">0</span><span class="s0">;</span>
+    private int <span class="s1">mQuestionNumber = </span><span class="s2">0</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span><span class="s0">;</span>
+
+        <span class="s1">mScoreView = (TextView)findViewById(R.id.score)</span><span class="s0">;</span>
+        <span class="s1">mQuestionView = (TextView)findViewById(R.id.question)</span><span class="s0">;</span>
+        <span class="s1">mButtonChoice1 = (Button)findViewById(R.id.choice1)</span><span class="s0">;</span>
+        <span class="s1">mButtonChoice2 = (Button)findViewById(R.id.choice2)</span><span class="s0">;</span>
+        <span class="s1">mButtonResult = (Button)findViewById(R.id.result)</span><span class="s0">;</span>
+        <span class="s1">mButtonQuit = (Button)findViewById(R.id.quit)</span><span class="s0">;</span>
+
+        <span class="s1">updateQuestion()</span><span class="s0">;</span>
+
+
+        <span class="s3">//Start of Button Listener for Button1</span>
+        <span class="s1">mButtonChoice1.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            @Override
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s0">if </span><span class="s1">(mQuestionNumber == </span><span class="s2">11</span><span class="s1">) {</span>
+                    Toast.makeText(MainActivity.<span class="s0">this, </span><span class="s4">&quot;Version 1.3.5 By Georgi Minkov&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">if </span><span class="s1">(mButtonChoice1.getText() == mAnswer) {</span>
+                        mScore = mScore + <span class="s2">1</span><span class="s0">;</span>
+                        <span class="s1">updateScore(mScore)</span><span class="s0">;</span>
+                        <span class="s1">updateQuestion()</span><span class="s0">;</span>
+
+                        <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s4">&quot;:)&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        Toast.makeText(MainActivity.<span class="s0">this, </span><span class="s4">&quot;:(&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                        <span class="s1">updateQuestion()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                }
+            }
+
+        })<span class="s0">;</span>
+        <span class="s3">//End of Button Listener for Button1</span>
+
+        //Start of Button Listener for Button2
+        <span class="s1">mButtonChoice2.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            @Override
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s0">if </span><span class="s1">(mQuestionNumber == </span><span class="s2">11</span><span class="s1">) {</span>
+                    openActivityEnd()<span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">if </span><span class="s1">(mButtonChoice2.getText() == mAnswer) {</span>
+                        mScore = mScore + <span class="s2">1</span><span class="s0">;</span>
+                        <span class="s1">updateScore(mScore)</span><span class="s0">;</span>
+                        <span class="s1">updateQuestion()</span><span class="s0">;</span>
+
+                        <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s4">&quot;:)&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        Toast.makeText(MainActivity.<span class="s0">this, </span><span class="s4">&quot;:(&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                        <span class="s1">updateQuestion()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                }
+            }
+        })<span class="s0">;</span>
+        <span class="s3">//End of Button Listener for Button2</span>
+
+
+
+        //Start of Button Listener for Button3
+        <span class="s1">mButtonResult.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            @Override
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                    <span class="s0">if </span><span class="s1">(mScore &gt;= </span><span class="s2">0 </span><span class="s1">&amp;&amp; mScore &lt; </span><span class="s2">5</span><span class="s1">) {</span>
+                        Toast.makeText(MainActivity.<span class="s0">this, </span><span class="s4">&quot;0-4: You are NOT satisfied with TU&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(mScore &gt; </span><span class="s2">4 </span><span class="s1">&amp;&amp; mScore &lt; </span><span class="s2">8</span><span class="s1">) {</span>
+                        Toast.makeText(MainActivity.<span class="s0">this, </span><span class="s4">&quot;5-7: You are satisfied with TU, but you expected more&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else</span>
+                        <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s4">&quot;8-10: You are satisfied with TU! YAAAY!&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+        })<span class="s0">;</span>
+        <span class="s3">//End of Button Listener for Button3</span>
+
+        //Start of Button Listener for Button4
+        <span class="s1">mButtonQuit.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            @Override
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                finish()<span class="s0">;</span>
+                <span class="s1">System.exit(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        })<span class="s0">;</span>
+        <span class="s3">//End of Button Listener for Button4</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateQuestion() {</span>
+            mQuestionView.setText(mQuestionLibrary.getQuestion(mQuestionNumber))<span class="s0">;</span>
+            <span class="s1">mButtonChoice1.setText(mQuestionLibrary.getChoice1(mQuestionNumber))</span><span class="s0">;</span>
+            <span class="s1">mButtonChoice2.setText(mQuestionLibrary.getChoice2(mQuestionNumber))</span><span class="s0">;</span>
+
+            <span class="s1">mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber)</span><span class="s0">;</span>
+            <span class="s1">mQuestionNumber++</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">updateScore(</span><span class="s0">int </span><span class="s1">point){</span>
+        mScoreView.setText(<span class="s4">&quot;&quot; </span><span class="s1">+ mScore)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">openActivityEnd() {</span>
+        Intent intent = <span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this, </span><span class="s1">CopyrightActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">startActivity(intent)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+}
+</pre>
+</body>
+</html>
